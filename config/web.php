@@ -11,6 +11,9 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'defaultRoute' => 'article',
+    'language' => 'fr-FR',
+    'timeZone' => 'Europe/Paris',
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -43,6 +46,16 @@ $config = [
             ],
         ],
         'db' => $db,
+        'formatter' => [
+            'dateFormat' => 'php:d/m/Y',
+            'decimalSeparator' => ',',
+            'thousandSeparator' => ' ',
+            'currencyCode' => 'EUR',
+            'numberFormatterOptions' => [
+                NumberFormatter::MIN_FRACTION_DIGITS => 2,
+                NumberFormatter::MAX_FRACTION_DIGITS => 2,
+            ]
+        ],
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
