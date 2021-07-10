@@ -2,20 +2,24 @@
 use yii\grid\GridView;
 use yii\jui\DatePicker;
 use yii\helpers\Html;
+use yii\helpers\Url;
+
+echo Html::a('Ajouter', ['article/show-form'], ['class' => 'btn btn-primary']);
+echo '</br></br>';
 
 echo GridView::widget([
     'dataProvider' => $dataProvider,
-    'emptyCell' => '-',
-    'filterModel' => $model,
+    'emptyCell' => '',
+    'filterModel' => $article,
     'tableOptions' => ['class' => ' table table-bordered table-hover'],
     'columns' => [
         [
-            'label' => $model->getLabel('a_date_creation'),
-            'attribute' => 'a_date_creation',
+            'label' => $article->getLabel('a_date_creation'),
+            'attribute' => 'date_creation',
             'format' => 'html',
             'filter' => DatePicker::widget([
-                'model' => $model,
-                'attribute' => 'a_date_creation',
+                'model' => $article,
+                'attribute' => 'date_creation',
                 'language' => Yii::$app->language,
                 'dateFormat' => 'php:d/m/Y',
                 'clientOptions' => [
@@ -26,10 +30,10 @@ echo GridView::widget([
                     'showButtonPanel' => true,
                 ],
             ]),
-            'contentOptions' => ['style' => 'text-align:center;width:8%;'],
+            'contentOptions' => ['style' => 'text-align:center;'],
         ],
         [
-            'label' => $model->getLabel('a_nom'),
+            'label' => $article->getLabel('a_nom'),
             'attribute' => 'a_nom',
             'format' => 'raw',
             'value' => function($data) {
@@ -37,22 +41,22 @@ echo GridView::widget([
             },
         ],
         [
-            'label' => $model->getLabel('a_description'),
+            'label' => $article->getLabel('a_description'),
             'attribute' => 'a_description',
             'format' => 'ntext',
         ],
         [
-            'label' => $model->getLabel('a_prix'),
-            'attribute' => 'a_prix',
+            'label' => $article->getLabel('a_prix'),
+            'attribute' => 'prix',
             'contentOptions' => ['style' => 'text-align:right;width:10%;'],
         ],
         [
-            'label' => $model->getLabel('a_quantite'),
-            'attribute' => 'a_quantite',
+            'label' => $article->getLabel('a_quantite'),
+            'attribute' => 'quantite',
             'contentOptions' => ['style' => 'text-align:right;width:5%;'],
         ],
         [
-            'label' => $model->getLabel('a_image'),
+            'label' => $article->getLabel('a_image'),
             'attribute' => 'a_image',
             'enableSorting' => false,
             'filter' => '',
@@ -60,6 +64,20 @@ echo GridView::widget([
             'value' => function($data) {
                 return Html::img('@web/uploads/article/' . $data->a_image);
             },
+        ],
+        [
+            'class' => 'yii\grid\ActionColumn',
+            'contentOptions' => ['style' => 'text-align:center;width:6%;'],
+            'template' => '{view} {update} {delete}',
+            'urlCreator' => function ($action, $model, $key, $index) {
+                if ($action === 'view') {
+                    return Url::to(['article/show-view', 'a_id' => $model->a_id]);
+                } elseif ($action === 'update') {
+                    return Url::to(['article/show-form', 'a_id' => $model->a_id]);
+                } else {
+                    return Url::to(['article/' . $action, 'a_id' => $model->a_id]);
+                }
+            }
         ],
     ]
 ]);
