@@ -4,7 +4,15 @@ use yii\jui\DatePicker;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
+if (Yii::$app->session->hasFlash('successPopulateDatabase')) {
+    echo "<div class='alert alert-success'>";
+    echo Yii::$app->session->getFlash('successPopulateDatabase');
+    echo "</div>";
+}
+
 echo Html::a('Ajouter', ['article/show-form'], ['class' => 'btn btn-primary']);
+echo '&nbsp;&nbsp;&nbsp;';
+echo Html::a('Générer des articles test', ['article/populate-database'], ['class' => 'btn btn-primary']);
 echo '</br></br>';
 
 echo GridView::widget([
@@ -15,11 +23,11 @@ echo GridView::widget([
     'columns' => [
         [
             'label' => $article->getLabel('a_date_creation'),
-            'attribute' => 'date_creation',
+            'attribute' => 'a_date_creation',
             'format' => 'html',
             'filter' => DatePicker::widget([
                 'model' => $article,
-                'attribute' => 'date_creation',
+                'attribute' => 'a_date_creation',
                 'language' => Yii::$app->language,
                 'dateFormat' => 'php:d/m/Y',
                 'clientOptions' => [
@@ -30,15 +38,16 @@ echo GridView::widget([
                     'showButtonPanel' => true,
                 ],
             ]),
+            'value' => function($data) {
+                $formatter = Yii::$app->formatter;//config par défaut dans web.php
+                return $formatter->asDate($data->a_date_creation);
+            },
             'contentOptions' => ['style' => 'text-align:center;'],
         ],
         [
             'label' => $article->getLabel('a_nom'),
             'attribute' => 'a_nom',
             'format' => 'raw',
-            'value' => function($data) {
-                return '<b>' . $data->a_nom . '</b>';
-            },
         ],
         [
             'label' => $article->getLabel('a_description'),
@@ -47,12 +56,20 @@ echo GridView::widget([
         ],
         [
             'label' => $article->getLabel('a_prix'),
-            'attribute' => 'prix',
-            'contentOptions' => ['style' => 'text-align:right;width:10%;'],
+            'attribute' => 'a_prix',
+            'value' => function($data) {
+                $formatter = Yii::$app->formatter;//config par défaut dans web.php
+                return $formatter->asCurrency($data->a_prix);
+            },
+            'contentOptions' => ['style' => 'text-align:right;width:11%;'],
         ],
         [
             'label' => $article->getLabel('a_quantite'),
-            'attribute' => 'quantite',
+            'attribute' => 'a_quantite',
+            'value' => function($data) {
+                $formatter = Yii::$app->formatter;//config par défaut dans web.php
+                return $formatter->asInteger($data->a_quantite);
+            },
             'contentOptions' => ['style' => 'text-align:right;width:5%;'],
         ],
         [

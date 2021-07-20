@@ -10,7 +10,11 @@ echo DetailView::widget([
     'attributes' => [
         [
             'label' => $article->getLabel('a_date_creation'),
-            'attribute' => 'date_creation',
+            'attribute' => 'a_date_creation',
+            'value' => function($data) {
+                $formatter = Yii::$app->formatter;//config par défaut dans web.php
+                return $formatter->asDate($data->a_date_creation);
+            },
         ],
         [
             'label' => $article->getLabel('a_nom'),
@@ -23,11 +27,19 @@ echo DetailView::widget([
         ],
         [
             'label' => $article->getLabel('a_prix'),
-            'attribute' => 'prix',
+            'attribute' => 'a_prix',
+            'value' => function($data) {
+                $formatter = Yii::$app->formatter;//config par défaut dans web.php
+                return $formatter->asCurrency($data->a_prix);
+            },
         ],
         [
             'label' => $article->getLabel('a_quantite'),
-            'attribute' => 'quantite',
+            'attribute' => 'a_quantite',
+            'value' => function($data) {
+                $formatter = Yii::$app->formatter;//config par défaut dans web.php
+                return $formatter->asInteger($data->a_quantite);
+            },
         ],
         [
             'label' => $article->getLabel('a_image'),

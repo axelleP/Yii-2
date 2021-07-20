@@ -19,6 +19,18 @@ class ArticleController extends Controller
         return $this->render('list', ['dataProvider' => $dataProvider, 'article' => $article]);
     }
 
+    public function actionPopulateDatabase() {
+        $nbArticle = 2;
+
+        for ($i = 1; $i <= $nbArticle; $i++) {
+            Article::generateFakeArticle();
+        }
+
+        Yii::$app->session->setFlash('successPopulateDatabase', "$nbArticle article(s) crée(s).");
+
+        return $this->redirect(['article/index']);
+    }
+
     public function actionShowView($a_id)
     {
         $article = Article::findOne($a_id);
@@ -35,14 +47,24 @@ class ArticleController extends Controller
 
         //soumission formulaire
         if (!empty(Yii::$app->request->post())) {
-            $article->load(Yii::$app->request->post());
-            $image = UploadedFile::getInstance($article, 'a_image');
-            $nomImg = time() . '_' . bin2hex(random_bytes(10)) . '.' . $image->extension;
-            $article->a_image = $nomImg;
+            $post = Yii::$app->request->post();
+            $article->load($post);
+
+            $downloadedImage = UploadedFile::getInstance($article, 'a_image');
+            if (!empty($downloadedImage)) {//input file remplit
+                $nomImg = \components\MyHelpers::createImageName($downloadedImage);
+                $article->a_image = $nomImg;
+            } else {//champ caché
+                $article->a_image = $post['a_image2'];
+            }
 
             //note : save() appel validate()
-            if ($article->save() && $article->a_image) {
-                $image->saveAs('uploads/article/' . $nomImg);
+            if ($article->save()) {
+                if (!empty($downloadedImage)) {
+                    //enregistre l'image dans l'application
+                    $downloadedImage->saveAs('uploads/article/' . $nomImg);
+                }
+
                 return $this->redirect(['article/show-view', 'a_id' => $article->a_id]);
             }
         }
@@ -54,22 +76,20 @@ class ArticleController extends Controller
     {
         $article = Article::findOne($a_id);
         $article->delete();
-        //à faire : supprimer l'image
         return $this->redirect(['article/index']);
     }
 
-    //A FAIRE
-    public function actionDeleteImage($a_id)
+    public function actionDeleteImage()
     {
-        $article = User::findOne($a_id);
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-        if ($article->deleteImage()) {
-            Yii::$app->session->setFlash('success', 'Your image was removed successfully. Upload another by clicking Browse below');
-        } else {
-            Yii::$app->session->setFlash('error', 'Error removing image. Please try again later or contact the system admin.');
-        }
+        $post = Yii::$app->request->post();
 
-        return $this->render('profile', ['model'=>$model]);
+        $article = Article::findOne($post['idArticle']);
+        $article->scenario = 'deleteImageArticle';
+        $article->deleteImage();
+        $article->a_image = '';
+        $article->save();
     }
 
 }
