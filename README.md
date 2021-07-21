@@ -1,3 +1,14 @@
+# Training
+I used :
+- Yii 2
+- Bootstrap v3.4.1
+- jQuery v3.5.1
+- Composer v2.0.14
+- yiisoft/yii2-jui ~2.0.0 : pour utiliser entre autre le calendrier date
+- yiisoft/yii2-faker ~2.0.0 : génération de données factices
+- yii-i18n-formatter : formattage des données pour l'affichage utilisateur
+- tecnickcom/tcpdf ^6.4: création fichier pdf
+
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">
         <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">

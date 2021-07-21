@@ -42,6 +42,40 @@ class MyHelpers
     }
 
     /**
+     * Converti un dataprovider en tableau
+     * @param $dataProvider DataProvider
+     * @return $tableau array
+     */
+    public static function convertDataProviderToArray($dataProvider = []) {
+        $tableau = [];
+
+        if (!empty($dataProvider)) {
+            foreach ($dataProvider->getModels() as $objet) {
+                $tableau[] = json_decode(json_encode($objet->getAttributes()), true);
+            }
+        }
+
+        return $tableau;
+    }
+
+    /**
+     * Converti un tableau en tableau d'objets
+     * @param $tableau array
+     * @return $tabObjets array[object, object, ...)
+     */
+    public static function convertArrayToArrayObjects($tableau = []) {
+        $tabObjets = [];
+
+        if (!empty($tableau)) {
+            foreach ($tableau as $value) {
+                $tabObjets[] = json_decode(json_encode($value));
+            }
+        }
+
+        return $tabObjets;
+    }
+
+    /**
      * Génération du nom de l'image
      * @param $image object
      * @return $nom string

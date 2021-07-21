@@ -4,12 +4,22 @@ use yii\jui\DatePicker;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
+//session
 if (Yii::$app->session->hasFlash('successPopulateDatabase')) {
     echo "<div class='alert alert-success'>";
     echo Yii::$app->session->getFlash('successPopulateDatabase');
     echo "</div>";
 }
 
+//icônes de téléchargement
+echo Html::a('<img src="https://img.icons8.com/office/60/000000/pdf.png"/>', ['document/export-pdf-articles'], ['data-method' => 'post', 'data-params' => [
+    'articlesJSON' => $articlesJSON,
+]]);
+echo '<img src="https://img.icons8.com/color/60/000000/word.png"/>';
+echo '<img src="https://img.icons8.com/color/60/000000/export-excel.png"/>';
+echo '</br></br>';
+
+//actions
 echo Html::a('Ajouter', ['article/show-form'], ['class' => 'btn btn-primary']);
 echo '&nbsp;&nbsp;&nbsp;';
 echo Html::a('Générer des articles test', ['article/populate-database'], ['class' => 'btn btn-primary']);

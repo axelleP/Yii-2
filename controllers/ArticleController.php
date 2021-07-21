@@ -15,8 +15,14 @@ class ArticleController extends Controller
         $article = new Article();
         $article->scenario = 'search';
         $dataProvider = $article->search(Yii::$app->request->get());
+        $tabArticles = \components\MyHelpers::convertDataProviderToArray($dataProvider);
+        $articlesJSON = json_encode($tabArticles);
 
-        return $this->render('list', ['dataProvider' => $dataProvider, 'article' => $article]);
+        return $this->render('list', [
+            'dataProvider' => $dataProvider
+            , 'article' => $article
+            , 'articlesJSON' => $articlesJSON
+        ]);
     }
 
     public function actionPopulateDatabase() {
