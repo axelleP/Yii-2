@@ -11,11 +11,17 @@ if (Yii::$app->session->hasFlash('successPopulateDatabase')) {
     echo "</div>";
 }
 
+echo '</br></br>';
+
 //icônes de téléchargement
-echo Html::a('<img src="https://img.icons8.com/office/60/000000/pdf.png"/>', ['document/export-pdf-articles'], ['data-method' => 'post', 'data-params' => [
-    'articlesJSON' => $articlesJSON,
-]]);
-echo '<img src="https://img.icons8.com/color/60/000000/word.png"/>';
+echo Html::a('<img src="https://img.icons8.com/office/60/000000/pdf.png"/>'
+, ['document/export-pdf-articles']
+, ['data-method' => 'post'
+    , 'data-params' => ['articlesJSON' => $articlesJSON]
+  ]
+);
+echo Html::a('<img src="https://img.icons8.com/color/60/000000/word.png"/>'
+, ['document/export-word-articles'], ['data-method' => 'post', 'data-params' => ['articlesJSON' => $articlesJSON,]]);
 echo '<img src="https://img.icons8.com/color/60/000000/export-excel.png"/>';
 echo '</br></br>';
 
@@ -23,7 +29,7 @@ echo '</br></br>';
 echo Html::a('Ajouter', ['article/show-form'], ['class' => 'btn btn-primary']);
 echo '&nbsp;&nbsp;&nbsp;';
 echo Html::a('Générer des articles test', ['article/populate-database'], ['class' => 'btn btn-primary']);
-echo '</br></br>';
+echo '</br></br></br>';
 
 echo GridView::widget([
     'dataProvider' => $dataProvider,

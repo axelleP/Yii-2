@@ -57,6 +57,8 @@ class Article extends ActiveRecord
 
             [['a_date_creation'], 'date', 'format' => 'php:Y-m-d', 'except' => 'search'],
             [['a_nom'], 'string', 'length' => [0, 50]],
+            //\s : autorise les espaces
+            ['a_nom', 'match', 'pattern' => '/^[a-zA-Z\s]+$/', 'message' => 'Seul les caractères sont autorisés.'],
             [['a_description'], 'string', 'length' => [0, 250]],
             [['a_prix'], 'number', 'message' => $this->getLabel('a_prix') . ' doit être un nombre (ex : 0.00)'],
             [['a_quantite'], 'integer', 'message' => $this->getLabel('a_quantite') . ' doit être un entier sans espace'],

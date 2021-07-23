@@ -18,7 +18,7 @@ echo $form->errorSummary($article);
 echo $form->field($article, 'a_date_creation')
 ->widget(DatePicker::classname(), [
     'model' => $article,
-    'attribute' => 'date_creation',
+    'attribute' => 'a_date_creation',
     'language' => Yii::$app->language,
     'dateFormat' => 'php:d/m/Y',
     'clientOptions' => [

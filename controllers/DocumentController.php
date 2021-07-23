@@ -20,4 +20,17 @@ class DocumentController extends Controller
         $pdf->download();
     }
 
+    public function actionExportWordArticles()
+    {
+        $post = Yii::$app->request->post();
+        $tabArticles = json_decode($post['articlesJSON'], true);
+        $articles = \components\MyHelpers::convertArrayToArrayObjects($tabArticles);
+
+        $word = new \app\documents\words\Word_1();
+        $word->tabParams = ['articles' => $articles];
+        $word->init();
+        $word->create();
+        $word->download();
+    }
+
 }

@@ -2,8 +2,8 @@
 namespace app\documents\pdfs;
 
 use Yii;
-use TCPDF;
 use yii\helpers\Html;
+use TCPDF;
 
 class Pdf_1 extends TCPDF
 {
@@ -78,26 +78,29 @@ class Pdf_1 extends TCPDF
 
         $textAlign_center = 'text-align:center;';
         $textAlign_right = 'text-align:right;';
+        $widthDescription = '280px';
+        $widthDate = '100px';
+        $widthPrixQuantite = '120px';
 
         $table = '<table class="table" border="1">';
         $table .= '<thead>';
         $table .= '<tr>';
-        $table .= '<th>Date création</th>';
+        $table .= '<th width="' . $widthDate . '">Date création</th>';
         $table .= '<th>Nom</th>';
-        $table .= '<th>Description</th>';
-        $table .= '<th>Prix</th>';
-        $table .= '<th>Quantité</th>';
+        $table .= '<th width="' . $widthDescription . '">Description</th>';
+        $table .= '<th width="' . $widthPrixQuantite . '">Prix</th>';
+        $table .= '<th width="' . $widthPrixQuantite . '">Quantité</th>';
         $table .= '<th>Image</th>';
         $table .= '</tr>';
         $table .= '</thead>';
         $table .= '<tbody>';
         foreach ($this->tabParams['articles'] as $article) {
-            $table .= '<tr>';
-            $table .= '<td style="' . $textAlign_center . '">' . $formatter->asDate($article->a_date_creation) . '</td>';
+            $table .= '<tr nobr="true">';//nobr pour que les lignes se soient pas coupées entre 2 pages
+            $table .= '<td width="' . $widthDate . '" style="' . $textAlign_center . '">' . $formatter->asDate($article->a_date_creation) . '</td>';
             $table .= "<td>$article->a_nom</td>";
-            $table .= "<td>$article->a_description</td>";
-            $table .= '<td style="' . $textAlign_right . '">' . $formatter->asCurrency($article->a_prix) . '</td>';
-            $table .= '<td style="' . $textAlign_right . '">' . $formatter->asInteger($article->a_quantite) . '</td>';
+            $table .= '<td width="' . $widthDescription . '">' . nl2br($article->a_description) . '</td>';
+            $table .= '<td width="' . $widthPrixQuantite . '" style="' . $textAlign_right . '">' . $formatter->asCurrency($article->a_prix) . '</td>';
+            $table .= '<td width="' . $widthPrixQuantite . '" style="' . $textAlign_right . '">' . $formatter->asInteger($article->a_quantite) . '</td>';
             $table .= '<td>' . Html::img('@web/uploads/article/' . $article->a_image) . '</td>';
             $table .= '</tr>';
         }
