@@ -7,8 +7,9 @@ I used :
 - yiisoft/yii2-jui ~2.0.0 : pour utiliser entre autre le calendrier date
 - yiisoft/yii2-faker ~2.0.0 : génération de données factices
 - yii-i18n-formatter : formattage des données pour l'affichage utilisateur
-- tecnickcom/tcpdf ^6.4: création de fichiers Pdf
-- PHPOffice/PHPWord ^0.18.2: création de fichiers Word
+- tecnickcom/tcpdf ^6.4 : création de fichiers Pdf
+- PHPOffice/PHPWord ^0.18.2 : création de fichiers Word
+- PHPOffice/PhpSpreadsheet ^1.18 : création de fichiers Excel (sucesseur de PHPExcel)
 
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">

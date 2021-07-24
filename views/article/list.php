@@ -21,8 +21,9 @@ echo Html::a('<img src="https://img.icons8.com/office/60/000000/pdf.png"/>'
   ]
 );
 echo Html::a('<img src="https://img.icons8.com/color/60/000000/word.png"/>'
-, ['document/export-word-articles'], ['data-method' => 'post', 'data-params' => ['articlesJSON' => $articlesJSON,]]);
-echo '<img src="https://img.icons8.com/color/60/000000/export-excel.png"/>';
+, ['document/export-word-articles'], ['data-method' => 'post', 'data-params' => ['articlesJSON' => $articlesJSON]]);
+echo Html::a('<img src="https://img.icons8.com/color/60/000000/export-excel.png"/>'
+, ['document/export-excel-articles'], ['data-method' => 'post', 'data-params' => ['articlesJSON' => $articlesJSON]]);
 echo '</br></br>';
 
 //actions

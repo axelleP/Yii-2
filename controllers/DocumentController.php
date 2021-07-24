@@ -33,4 +33,17 @@ class DocumentController extends Controller
         $word->download();
     }
 
+    public function actionExportExcelArticles()
+    {
+        $post = Yii::$app->request->post();
+        $tabArticles = json_decode($post['articlesJSON'], true);
+        $articles = \components\MyHelpers::convertArrayToArrayObjects($tabArticles);
+
+        $excel = new \app\documents\excels\Excel_1();
+        $excel->tabParams = ['articles' => $articles];
+        $excel->init();
+        $excel->create();
+        $excel->download();
+    }
+
 }
