@@ -29,7 +29,7 @@ class Word_1 extends PhpWord
         $this->addParagraphStyle('pTitre', ['align' => 'center']);
         $section->addText('Liste des articles', 'fTitre', 'pTitre');
 
-        $section->addTextBreak(3);
+        $section->addTextBreak(2);
 
         //texte
         $p = "<p>";
@@ -39,20 +39,38 @@ class Word_1 extends PhpWord
         $p .= "</p>";
         HtmlPhpWord::addHtml($section, $p);
 
-        $section->addTextBreak(2);
+        $section->addTextBreak(1);
 
         //tableau
-        $table = $section->addTable();
+        $this->addTableStyle('articles', [
+            'borderSize' => 2,
+            'borderColor' => 'black;',
+            'cellMarginTop'=> 50,
+            'cellMarginLeft'=> 50,
+            'cellMarginRight'=> 50,
+            'cellMarginBottom'=> 50,
+        ]);
+        $table = $section->addTable('articles');
+
+        $table->addRow();
+
+        //rque : les cellules ou on ne définit pas de width se dimensionnent automatiquement
+        $table->addCell(1450)->addText('Date création', [], ['align' => 'center']);
+        $table->addCell()->addText('Nom', [], ['align' => 'center']);
+        $table->addCell()->addText('Description', [], ['align' => 'center']);
+        $table->addCell(1000)->addText('Prix', [], ['align' => 'center']);
+        $table->addCell()->addText('Quantité', [], ['align' => 'center']);
+        $table->addCell()->addText('Image', [], ['align' => 'center']);
 
         foreach ($this->tabParams['articles'] as $article) {
             $table->addRow();
-            
-            $table->addCell(1750)->addText($formatter->asDate($article->a_date_creation));
-            $table->addCell(1750)->addText($article->a_nom);
-            $table->addCell(1750)->addText($article->a_description);
-            $table->addCell(1750)->addText($formatter->asCurrency($article->a_prix));
-            $table->addCell(1750)->addText($formatter->asInteger($article->a_quantite));
-            $table->addCell(1750)->addImage(Yii::getAlias('@webroot') . '/uploads/article/' . $article->a_image);
+
+            $table->addCell()->addText($formatter->asDate($article->a_date_creation), [], ['align' => 'center']);
+            $table->addCell()->addText($article->a_nom);
+            $table->addCell()->addText($article->a_description);
+            $table->addCell()->addText($formatter->asCurrency($article->a_prix), [], ['align' => 'right']);
+            $table->addCell()->addText($formatter->asInteger($article->a_quantite), [], ['align' => 'right']);
+            $table->addCell()->addImage(Yii::getAlias('@webroot') . '/uploads/article/' . $article->a_image);
         }
     }
 

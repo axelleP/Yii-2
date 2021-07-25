@@ -5,7 +5,7 @@ use Yii;
 use yii\helpers\Html;
 use TCPDF;
 
-class Pdf_1 extends TCPDF
+class Pdf_1 extends TCPDF 
 {
     public $tabParams = [];
 
