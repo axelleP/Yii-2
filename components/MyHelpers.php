@@ -42,15 +42,15 @@ class MyHelpers
     }
 
     /**
-     * Converti un dataprovider en tableau
-     * @param $dataProvider DataProvider
+     * Converti un tableau d'objets en tableau
+     * @param $tabObjets array[object, object, ...)
      * @return $tableau array
      */
-    public static function convertDataProviderToArray($dataProvider = []) {
+    public static function convertArrayObjectsToArray($tabObjets = []) {
         $tableau = [];
 
-        if (!empty($dataProvider)) {
-            foreach ($dataProvider->getModels() as $objet) {
+        if (!empty($tabObjets)) {
+            foreach ($tabObjets as $objet) {
                 $tableau[] = json_decode(json_encode($objet->getAttributes()), true);
             }
         }

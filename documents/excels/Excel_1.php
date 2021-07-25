@@ -4,6 +4,7 @@ namespace app\documents\excels;
 use Yii;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx as Xlsx;
 
 class Excel_1 extends Spreadsheet
@@ -78,7 +79,7 @@ class Excel_1 extends Spreadsheet
         /* tableau */
         //thead
         $row = 8;
-        $sheet->setAutoFilter("{$startCol}{$row}:E{$row}");//met des filtres
+        $sheet->setAutoFilter("{$startCol}{$row}:{$endCol}{$row}");//met des filtres
         $styleTableHead = [
             'font' => [
                 'color' => ['rgb' => 'FFFFFF']
@@ -105,15 +106,43 @@ class Excel_1 extends Spreadsheet
         $firstRowTable = $row;
         foreach ($this->tabParams['articles'] as $article) {
             $sheet->setCellValue("A{$row}", $formatter->asDate($article->a_date_creation));
+            $sheet->getStyle("A{$row}")->getAlignment()->setHorizontal('center');
+            $sheet->getStyle("A{$row}")->getNumberFormat()
+            ->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
+
             $sheet->setCellValue("B{$row}", $article->a_nom);
-            $sheet->setCellValue("C{$row}", nl2br($article->a_description));
-            $sheet->setCellValue("D{$row}", $formatter->asCurrency($article->a_prix));
-            $sheet->setCellValue("E{$row}", $formatter->asInteger($article->a_quantite));
+
+            $sheet->setCellValue("C{$row}", $article->a_description);
+            //permet les sauts de ligne et ajuste la hauteur des lignes
+            $sheet->getStyle("C{$row}")->getAlignment()->setWrapText(true);
+
+            $sheet->setCellValue("D{$row}", $article->a_prix);
+            $sheet->getStyle("D{$row}")->getAlignment()->setHorizontal('right');
+            $sheet->getStyle("D{$row}")->getNumberFormat()
+            ->setFormatCode(NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
+
+            $sheet->setCellValue("E{$row}", $article->a_quantite);
+            $sheet->getStyle("E{$row}")->getAlignment()->setHorizontal('right');
+            $sheet->getStyle("E{$row}")->getNumberFormat()
+            ->setFormatCode(NumberFormat::FORMAT_NUMBER);
 
             $row++;
         }
+
         $lastRowTable = $row;
         $sheet->getStyle("{$startCol}{$firstRowTable}:{$endCol}{$lastRowTable}")->applyFromArray($styleTableBody);
+
+        //total
+        $row++;
+
+        $sheet->setCellValue("C{$row}", 'TOTAL');
+        $sheet->getStyle("C{$row}")->getAlignment()->setHorizontal('right');
+        $sheet->getStyle("C{$row}")->getFont()->setBold(true);
+
+        $sheet->setCellValue("D{$row}" , "=SUM(D9:D{$lastRowTable})");
+        $sheet->getStyle("D{$row}")->getFont()->setBold(true);
+        $sheet->getStyle("D{$row}")->getNumberFormat()
+        ->setFormatCode(NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);
         /* fin tableau */
 
         //redimensionne les colonnes
