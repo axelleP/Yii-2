@@ -98,6 +98,7 @@ echo GridView::widget([
             'value' => function($data) {
                 return Html::img('@web/uploads/article/' . $data->a_image);
             },
+            'contentOptions' => ['style' => 'text-align:center;'],
         ],
         [
             'class' => 'yii\grid\ActionColumn',
