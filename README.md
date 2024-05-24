@@ -1,4 +1,4 @@
-# <h1 align="center">👨‍💻 Entraînement Yii 2 👩‍💻</h1>
+# <h1 align="center">👨‍💻 Yii 2 👩‍💻</h1>
 
 </br>
 
@@ -16,7 +16,7 @@
 - yii-i18n-formatter : formattage des données pour l'affichage utilisateur
 - tecnickcom/tcpdf ^6.4 : création de fichiers Pdf
 - PHPOffice/PHPWord ^0.18.2 : création de fichiers Word
-- PHPOffice/PhpSpreadsheet ^1.18 : création de fichiers Excel (sucesseur de PHPExcel)
+- PHPOffice/PhpSpreadsheet ^1.18 : création de fichiers Excel (successeur de PHPExcel)
 
 ## Exemples de code
 - Modèle Article : [Article.php](models/Article.php)
